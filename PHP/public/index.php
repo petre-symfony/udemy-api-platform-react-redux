@@ -23,7 +23,7 @@ function getFormatName(NamedFormatInterface $format):string {
   return $format->getName();
 }
 
-function getFormatByName(array $formats, string $name): BaseFormat{
+function getFormatByName(array $formats, string $name): ?BaseFormat{
   foreach($formats as $format){
     if($format instanceof NamedFormatInterface && $format->getName() === $name){
       return $format;
@@ -31,6 +31,10 @@ function getFormatByName(array $formats, string $name): BaseFormat{
   }
 
   return null;
+}
+
+function justJumpData(BaseFormat $format):void {
+  var_dump($format->convert());
 }
 
 $json = new JSON();
@@ -42,3 +46,4 @@ $formats = [
 ];
 
 var_dump(getFormatByName($formats, 'XML'));
+justJumpData($formats[0]);
