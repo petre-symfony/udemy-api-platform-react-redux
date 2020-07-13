@@ -34,7 +34,7 @@ function getFormatByName(array $formats, string $name): ?BaseFormat{
 }
 
 function justJumpData(BaseFormat $format):void {
-  var_dump($format->convert());
+  return $format->convert();
 }
 
 $json = new JSON();
