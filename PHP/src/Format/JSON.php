@@ -17,7 +17,7 @@ class JSON extends BaseFormat implements FromStringInterface, NamedFormatInterfa
 
   public function getName()
   {
-    return 'JSON';
+    return 1;
   }
 
 
