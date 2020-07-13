@@ -5,7 +5,7 @@ namespace App\Format;
 abstract class BaseFormat {
     protected $data;
 
-    public function __construct(array $data)
+    public function __construct(array $data=[])
     {
         $this->data = $data;
     }

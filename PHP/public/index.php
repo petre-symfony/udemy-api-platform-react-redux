@@ -17,6 +17,5 @@ $data = [
 function convertData(BaseFormat $format){
   return $format->convert();
 }
-$json = new JSON($data);
+$json = new JSON();
 var_dump(convertData($json));
-$json->setData('Hi hello!');
