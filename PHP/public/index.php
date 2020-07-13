@@ -5,7 +5,7 @@ require __DIR__.'/../vendor/autoload.php';
 use App\Format\JSON;
 use App\Format\XML;
 use App\Format\YAML;
-use App\Format\BaseFormat;
+use App\Format\FromStringInterface;
 
 print_r ("Interfaces<br />");
 
@@ -29,10 +29,19 @@ echo "<br />";
 //var_dump($base);
 
 print_r("<br /><br />Result of conversion<br /><br />");
-var_dump($json->convert());
-echo "<br />";
-var_dump($xml->convert());
-echo "<br />";
-var_dump($yml->convert());
-echo "<br />";
-var_dump($json->convertFromString('{"name": "John", "surname": "Doe"}'));
+
+$formats = [$json, $xml, $yml];
+foreach($formats as $format){
+  echo 'Class name: ';
+  var_dump(get_class($format));
+  echo "<br />";
+  echo 'Convert result: ';
+  var_dump($format->convert());
+  echo "<br />";
+  var_dump($format instanceof FromStringInterface);
+  echo "<hr />";
+  if($format instanceof FromStringInterface) {
+    var_dump($format->convertFromString('{"name": "John", "surname": "Doe"}'));
+    echo "<br />";
+  }
+}
