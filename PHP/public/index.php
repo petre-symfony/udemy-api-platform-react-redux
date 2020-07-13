@@ -6,6 +6,7 @@ use App\Format\JSON;
 use App\Format\XML;
 use App\Format\YAML;
 use App\Format\FromStringInterface;
+use App\Format\NamedFormatInterface;
 
 print_r ("Interfaces<br />");
 
@@ -32,6 +33,11 @@ print_r("<br /><br />Result of conversion<br /><br />");
 
 $formats = [$json, $xml, $yml];
 foreach($formats as $format){
+  if($format instanceof NamedFormatInterface) {
+    var_dump($format->getName());
+    echo "<br />";
+  }
+  echo "<hr />";
   echo 'Class name: ';
   var_dump(get_class($format));
   echo "<br />";
