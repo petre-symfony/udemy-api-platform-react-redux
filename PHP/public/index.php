@@ -23,7 +23,22 @@ function getFormatName(NamedFormatInterface $format):string {
   return $format->getName();
 }
 
+function getFormatByName(array $formats, string $name): ?BaseFormat{
+  foreach($formats as $format){
+    if($format instanceof NamedFormatInterface && $format->getName() === $name){
+      return $format;
+    }
+  }
+
+  return null;
+}
+
 $json = new JSON();
-var_dump(convertData($json));
-echo "<br />";
-var_dump(getFormatName($json));
+
+$formats = [
+  new JSON($data),
+  new XML($data),
+  new YAML($data)
+];
+
+var_dump(getFormatByName($formats, 'YAML'));

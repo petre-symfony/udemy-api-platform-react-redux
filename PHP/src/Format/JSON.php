@@ -15,7 +15,7 @@ class JSON extends BaseFormat implements FromStringInterface, NamedFormatInterfa
     return json_decode($string, true);
   }
 
-  public function getName()
+  public function getName():string
   {
     return 'JSON';
   }

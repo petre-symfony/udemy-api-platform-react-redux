@@ -1,8 +1,6 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Format;
-
-use App\Format\NamedFormatInterface;
 
 class XML extends BaseFormat {
     public function convert()

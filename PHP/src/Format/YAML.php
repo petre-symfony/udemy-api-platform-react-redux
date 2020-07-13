@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Format;
 
 use App\Format\NamedFormatInterface;
@@ -16,7 +16,7 @@ class YAML extends BaseFormat implements NamedFormatInterface{
         return htmlspecialchars($result);
     }
 
-  public function getName()
+  public function getName():string
   {
     return 'YAML';
   }
