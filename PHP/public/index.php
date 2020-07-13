@@ -17,7 +17,7 @@ $data = [
 $json = new JSON($data);
 $xml = new XML($data);
 $yml = new YAML($data);
-$base = new BaseFormat($data);
+//$base = new BaseFormat($data);
 
 
 var_dump($json);
@@ -26,7 +26,7 @@ var_dump($xml);
 echo "<br />";
 var_dump($yml);
 echo "<br />";
-var_dump($base);
+//var_dump($base);
 
 print_r("<br /><br />Result of conversion<br /><br />");
 var_dump($json->convert());
@@ -35,4 +35,4 @@ var_dump($xml->convert());
 echo "<br />";
 var_dump($yml->convert());
 echo "<br />";
-var_dump($base->convert());
+//var_dump($base->convert());
