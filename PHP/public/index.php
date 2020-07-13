@@ -23,7 +23,7 @@ function getFormatName(NamedFormatInterface $format):string {
   return $format->getName();
 }
 
-function getFormatByName(array $formats, string $name): ?BaseFormat{
+function getFormatByName(array $formats, string $name): BaseFormat{
   foreach($formats as $format){
     if($format instanceof NamedFormatInterface && $format->getName() === $name){
       return $format;
@@ -41,4 +41,4 @@ $formats = [
   new YAML($data)
 ];
 
-var_dump(getFormatByName($formats, 'YAML'));
+var_dump(getFormatByName($formats, 'XML'));
