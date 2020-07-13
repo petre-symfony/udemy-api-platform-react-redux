@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 namespace App\Format;
 
 use App\Format\FromStringInterface;
@@ -17,7 +17,7 @@ class JSON extends BaseFormat implements FromStringInterface, NamedFormatInterfa
 
   public function getName()
   {
-    return 1;
+    return 'JSON';
   }
 
 
