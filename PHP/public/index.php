@@ -18,4 +18,4 @@ function convertData(BaseFormat $format){
   return $format->convert();
 }
 
-var_dump(convertData(new JSON($data)));
+var_dump(convertData(new \stdClass($data)));
