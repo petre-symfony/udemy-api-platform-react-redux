@@ -4,7 +4,7 @@ namespace App\Format;
 
 use App\Format\NamedFormatInterface;
 
-class XML extends BaseFormat implements NamedFormatInterface{
+class XML extends BaseFormat {
     public function convert()
     {
         $result = '';
@@ -15,9 +15,4 @@ class XML extends BaseFormat implements NamedFormatInterface{
 
         return htmlspecialchars($result);
     }
-
-  public function getName()
-  {
-    return 'XML';
-  }
 }
