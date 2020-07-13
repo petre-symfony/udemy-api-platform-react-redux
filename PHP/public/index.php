@@ -21,7 +21,7 @@ $formats = [
 ];
 
 function findByName(string $name, array $formats): ?BaseFormat{
-  $found = array_filter($formats, function($format){
+  $found = array_filter($formats, function($format) use ($name){
     return $format->getName() === $name;
   });
 
@@ -31,4 +31,4 @@ function findByName(string $name, array $formats): ?BaseFormat{
 
   return null;
 }
-var_dump(findByName('XML', $formats));
+var_dump(findByName('YAML', $formats));

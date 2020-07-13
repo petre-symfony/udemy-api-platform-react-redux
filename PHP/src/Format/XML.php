@@ -13,4 +13,9 @@ class XML extends BaseFormat {
 
         return htmlspecialchars($result);
     }
+
+  public function getName():string
+  {
+    return 'XML';
+  }
 }
