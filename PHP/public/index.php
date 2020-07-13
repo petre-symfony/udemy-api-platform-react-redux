@@ -7,28 +7,25 @@ use App\Format\XML;
 use App\Format\YAML;
 use App\Format\BaseFormat;
 
-print_r ("Anonymous functions<br /><br />");
+print_r ("Reflections<br /><br />");
 
-$data = [
-    "name" => "John",
-    "surname" => "Doe"
-];
+$class = new ReflectionClass(JSON::class);
+var_dump($class);
+$method = $class->getConstructor();
+echo "<br />";
+var_dump($method);
+echo "<br />";
+$parameters = $method->getParameters();
+var_dump($parameters);
+echo "<br />";
 
-$formats = [
-  new JSON($data),
-  new XML($data),
-  new YAML($data)
-];
-
-function findByName(string $name, array $formats): ?BaseFormat{
-  $found = array_filter($formats, function($format) use ($name){
-    return $format->getName() === $name;
-  });
-
-  if (count($found)){
-    return reset($found);
-  }
-
-  return null;
+foreach($parameters as $parameter){
+  $type = $parameter->getType();
+  var_dump((string) $type);
+  echo "<br />";
+  var_dump($type->isBuiltin());
+  echo "<br />";
+  var_dump($parameter->allowsNull());
+  echo "<br />";
+  var_dump($parameter->getDefaultValue());
 }
-var_dump(findByName('YAML', $formats));
