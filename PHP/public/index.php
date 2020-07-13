@@ -7,7 +7,7 @@ use App\Format\XML;
 use App\Format\YAML;
 use App\Format\BaseFormat;
 
-print_r ("Abstract classes<br />");
+print_r ("Interfaces<br />");
 
 $data = [
     "name" => "John",
