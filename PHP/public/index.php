@@ -30,12 +30,18 @@ $container->addService('format.xml', function() use ($container){
   return new XML();
 });
 $container->addService('format', function() use ($container){
-  $container->getService('format.json');
+  return $container->getService('format.json');
 });
 $container->addService('serializer', function() use ($container){
-  return new Serializer($this->getService('format'));
+  return new Serializer($container->getService('format'));
 });
 $container->addService('controller.index', function() use ($container){
-  return new IndexController($this->getService('serializer'));
+  return new IndexController($container->getService('serializer'));
 });
-var_dump($container);
+
+foreach($container->getServices() as $service){
+  var_dump($service);
+  echo "<br />";
+}
+echo "<hr />";
+var_dump($container->getService('controller.index')->index());
