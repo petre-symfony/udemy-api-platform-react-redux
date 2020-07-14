@@ -13,6 +13,7 @@ use App\Annotations\Route;
 class Kernel
 {
   private $container;
+  private $routes = [];
 
   public function __construct()
   {
@@ -25,6 +26,8 @@ class Kernel
 
   public function boot(){
     $this->bootContainer($this->container);
+
+    return $this;
   }
 
   public function bootContainer(Container $container){
@@ -61,14 +64,28 @@ class Kernel
           if(!$route){
             continue;
           }
-          $routes[] = [
+          $routes[str_replace('//', '/', $baseRoute.$route->route)] = [
             'service' => $serviceName,
             'method' => $method->getName()
           ];
         }
-
-        var_dump($routes);
       }
     );
+
+    $this->routes= $routes;
+  }
+
+  public function handleRequest(){
+    $uri = $_SERVER['REQUEST_URI'];
+
+    // var_dump($uri);
+
+    if (isset($this->routes[$uri])) {
+      $route = $this->routes[$uri];
+      $response = $this->container->getService($route['service'])
+        ->{$route['method']}();
+      echo $response;
+      die;
+    }
   }
 }
