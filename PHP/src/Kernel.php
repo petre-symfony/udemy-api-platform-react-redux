@@ -49,7 +49,20 @@ class Kernel
       'App\\Controller',
       function(string $serviceName, \ReflectionClass $class) use ($reader, &$routes){
         $route = $reader->getClassAnnotation($class, Route::class);
-        var_dump($route);
+        if(!$route){
+          return;
+        }
+
+        $baseRoute = $route->route;
+
+        foreach($class->getMethods() as $method){
+          $route = $reader->getMethodAnnotation($method, Route::class);
+
+          if(!$route){
+            continue;
+          }
+          var_dump($route);
+        }
       }
     );
   }
