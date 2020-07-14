@@ -44,3 +44,6 @@ var_dump($container->getServices());
 
 echo "<hr />";
 var_dump($container->getService('controller.index')->index());
+
+$container->loadServices('App\\Service');
+$container->loadServices('App\\Controller');

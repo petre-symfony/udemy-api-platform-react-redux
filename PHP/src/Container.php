@@ -52,4 +52,19 @@ class Container
       'aliases' => $this->aliases
     ];
   }
+
+  public function loadServices(string $namespace){
+    $baseDir = __DIR__.'/';
+
+    $actualDir = str_replace('\\', '/', $namespace);
+    $actualDir = $baseDir . substr(
+      $actualDir,
+      strpos($actualDir, '/') + 1
+    );
+
+    $files = array_filter(scandir($actualDir), function($file){
+      return $file !== '.' && $file !== '..';
+    });
+    var_dump($files);
+  }
 }
