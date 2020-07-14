@@ -13,7 +13,7 @@ use App\Service\Serializer;
 use App\Controller\IndexController;
 use App\Container;
 
-print_r("Autowired Service Container<br /><br />");
+print_r("Annotations<br /><br />");
 
 $data = [
   "name" => "John",
