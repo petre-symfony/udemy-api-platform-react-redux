@@ -61,8 +61,13 @@ class Kernel
           if(!$route){
             continue;
           }
-          var_dump($route);
+          $routes[] = [
+            'service' => $serviceName,
+            'method' => $method->getName()
+          ];
         }
+
+        var_dump($routes);
       }
     );
   }
