@@ -53,7 +53,7 @@ class Container
     ];
   }
 
-  public function loadServices(string $namespace){
+  public function loadServices(string $namespace, ?\Closure $callback=null){
     $baseDir = __DIR__.'/';
 
     $actualDir = str_replace('\\', '/', $namespace);
@@ -99,6 +99,10 @@ class Container
 
         return new $serviceName(...$serviceParameters);
       });
+
+      if($callback){
+        $callback($serviceName, $class);
+      }
     };
   }
 }

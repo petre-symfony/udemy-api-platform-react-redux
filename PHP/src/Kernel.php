@@ -6,6 +6,9 @@ namespace App;
 use App\Format\JSON;
 use App\Format\XML;
 use App\Format\FormatInterface;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\AnnotationReader;
+use App\Annotations\Route;
 
 class Kernel
 {
@@ -36,6 +39,18 @@ class Kernel
     }, FormatInterface::class);
 
     $container->loadServices('App\\Service');
-    $container->loadServices('App\\Controller');
+
+    AnnotationRegistry::registerLoader('class_exists');
+    $reader = new AnnotationReader();
+
+    $routes = [];
+
+    $container->loadServices(
+      'App\\Controller',
+      function(string $serviceName, \ReflectionClass $class) use ($reader, &$routes){
+        $route = $reader->getClassAnnotation($class, Route::class);
+        var_dump($route);
+      }
+    );
   }
 }
