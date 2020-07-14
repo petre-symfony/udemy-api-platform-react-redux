@@ -1,6 +1,7 @@
 <?php
 require __DIR__.'/../vendor/autoload.php';
 
+use App\Format\FormatInterface;
 use App\Format\JSON;
 use App\Format\XML;
 use App\Format\YAML;
@@ -12,7 +13,7 @@ use App\Service\Serializer;
 use App\Controller\IndexController;
 use App\Container;
 
-print_r("Simple Service Container<br /><br />");
+print_r("Autowired Service Container<br /><br />");
 
 $data = [
   "name" => "John",
@@ -31,7 +32,7 @@ $container->addService('format.xml', function() use ($container){
 });
 $container->addService('format', function() use ($container){
   return $container->getService('format.json');
-});
+}, FormatInterface::class);
 $container->addService('serializer', function() use ($container){
   return new Serializer($container->getService('format'));
 });
@@ -39,9 +40,7 @@ $container->addService('controller.index', function() use ($container){
   return new IndexController($container->getService('serializer'));
 });
 
-foreach($container->getServices() as $service){
-  var_dump($service);
-  echo "<br />";
-}
+var_dump($container->getServices());
+
 echo "<hr />";
 var_dump($container->getService('controller.index')->index());
