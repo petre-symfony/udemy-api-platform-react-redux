@@ -8,9 +8,10 @@ use App\Format\BaseFormat;
 use App\Format\FromStringInterface;
 use App\Format\NamedFormatInterface;
 
-use App\Serializer;
+use App\Service\Serializer;
+use App\Controller\IndexController;
 
-print_r("Dependency Injection<br /><br />");
+print_r("Simple Service Container<br /><br />");
 
 $data = [
   "name" => "John",
@@ -18,4 +19,6 @@ $data = [
 ];
 
 $serializer = new Serializer(new YAML());
-var_dump($serializer->serialize($data));
+$controller = new IndexController($serializer);
+
+var_dump($controller->index());
