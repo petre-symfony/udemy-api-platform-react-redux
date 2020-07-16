@@ -24,7 +24,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "groups"={"write"}
  *   },
  * )
- * @UniqueEntity(fields={"username", "email"})
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"email"})
  */
 class User implements UserInterface
 {
