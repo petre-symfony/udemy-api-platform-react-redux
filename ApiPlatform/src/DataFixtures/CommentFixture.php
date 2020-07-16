@@ -12,6 +12,7 @@ class CommentFixture extends BaseFixture  implements DependentFixtureInterface {
       $comment->setPublished($this->faker->dateTimeBetween('-30 days'));
       $comment->setContent($this->faker->unique()->realText($this->faker->numberBetween(20, 40)));
       $comment->setAuthor($this->getRandomReference('main_users'));
+      $comment->setPost($this->getRandomReference('posts'));
 
       return $comment;
     });
@@ -20,7 +21,10 @@ class CommentFixture extends BaseFixture  implements DependentFixtureInterface {
   }
 
   public function getDependencies(){
-    return [UserFixture::class];
+    return [
+      UserFixture::class,
+      PostFixture::class
+    ];
   }
 
 }

@@ -6,6 +6,8 @@ use App\Repository\BlogPostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
@@ -45,6 +47,16 @@ class BlogPost {
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+      $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int {
         return $this->id;
@@ -100,5 +112,12 @@ class BlogPost {
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection {
+      return $this->comments;
     }
 }
