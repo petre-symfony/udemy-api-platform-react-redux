@@ -8,7 +8,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
- * @ApiResource()
+ * @ApiResource(
+ *   itemOperations={"get"},
+ *   collectionOperations={"get"}
+ * )
  */
 class Comment
 {
