@@ -14,10 +14,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
  *   itemOperations={"get"},
- *   collectionOperations={},
+ *   collectionOperations={"post"},
  *   normalizationContext={
  *     "groups"={"read"}
- *   }
+ *   },
+ *   denormalizationContext={
+ *     "groups"={"write"}
+ *   },
  * )
  */
 class User implements UserInterface
@@ -32,13 +35,13 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-      * @Groups("read")
+      * @Groups({"read", "write"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-      * @Groups("read")
+      * @Groups({"read", "write"})
      */
     private $name;
 
@@ -54,7 +57,13 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @Groups({"write"})
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"write"})
      */
     private $email;
 
@@ -143,6 +152,21 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword():?string {
+      return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword(string $plainPassword): self {
+      $this->plainPassword = $plainPassword;
+      return $this;
+    }
+    
     /**
      * @see UserInterface
      */
