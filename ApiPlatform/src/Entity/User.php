@@ -70,6 +70,16 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
+     * @Assert\NotBlank()
+     * @Assert\Expression(
+     *   "this.getPlainPassword() === this.getRetypedPassword()",
+     *   message="Passwords does not match"
+     * )
+     * @Groups({"write"})
+     */
+    private $retypedPassword;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"write"})
      * @Assert\NotBlank()
@@ -177,6 +187,21 @@ class User implements UserInterface
       return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRetypedPassword():?string {
+      return $this->retypedPassword;
+    }
+
+    /**
+     * @param mixed $retypedPassword
+     */
+    public function setRetypedPassword(string $retypedPassword): self {
+      $this->retypedPassword = $retypedPassword;
+      return $this;
+    }
+    
     /**
      * @see UserInterface
      */
