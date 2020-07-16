@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,9 +18,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   collectionOperations={
  *     "get",
  *     "post" = {
- *       "access_control" = "is_granted('IS_AUTHENTICATED_FULLY')"
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY')"
  *     }
- *   }
+ *   },
+ *   denormalizationContext={
+ *     "groups"={"write"}
+ *   },
  * )
  */
 class BlogPost {
@@ -34,6 +38,7 @@ class BlogPost {
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min=10)
+     * @Groups({"write"})
      */
     private $title;
 
@@ -41,6 +46,7 @@ class BlogPost {
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
      * @Assert\DateTime()
+     * @Groups({"write"})
      */
     private $published;
 
@@ -48,6 +54,7 @@ class BlogPost {
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @Assert\Length(min=20)
+     * @Groups({"write"})
      */
     private $content;
 
