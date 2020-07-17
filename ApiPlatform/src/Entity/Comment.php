@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   subresourceOperations = {
  *     "api_blog_posts_comments_get_subresource" = {
  *       "normalization_context"={
- *         "groups" = {"get"}
+ *         "groups" = {"get_comments_of_post_with_author"}
  *       }
  *     }
  *   },
@@ -43,13 +43,13 @@ class Comment implements AuthoredEntityInterface {
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"get"})
+     * @Groups({"get_comments_of_post_with_author"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"post", "get"})
+     * @Groups({"post", "get_comments_of_post_with_author"})
      * @Assert\NotBlank()
      * @Assert\Length(min=3, max=300)
      */
@@ -58,7 +58,7 @@ class Comment implements AuthoredEntityInterface {
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"get"})
+     * @Groups({"get_comments_of_post_with_author"})
      */
     private $author;
 
@@ -109,7 +109,7 @@ class Comment implements AuthoredEntityInterface {
     }
 
   /**
-   * @Groups({"get"})
+   * @Groups({"get_comments_of_post_with_author"})
    */
     public function getCreated():\DateTime {
       return $this->getCreatedAt();
