@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,7 +32,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   },
  * )
  */
-class BlogPost {
+class BlogPost implements AuthoredEntityInterface {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -50,7 +51,6 @@ class BlogPost {
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
-     * @Assert\DateTime()
      * @Groups({"write"})
      */
     private $published;
@@ -134,7 +134,7 @@ class BlogPost {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(?UserInterface $author): AuthoredEntityInterface
     {
         $this->author = $author;
 

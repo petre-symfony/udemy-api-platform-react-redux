@@ -3,13 +3,16 @@
 
 namespace App\DataPersister;
 
+
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use App\Entity\AuthoredEntityInterface;
+use App\Entity\Comment;
 use App\Entity\BlogPost;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
 
-class PostPersister implements DataPersisterInterface {
+class AuthoredEntityPersisters implements DataPersisterInterface {
   /**
    * @var EntityManagerInterface
    */
@@ -28,11 +31,11 @@ class PostPersister implements DataPersisterInterface {
   }
 
   public function supports($data): bool {
-    return $data instanceof BlogPost;
+    return $data instanceof AuthoredEntityInterface;
   }
 
   /**
-   * @param BlogPost $data
+   * @param Comment|BlogPost $data
    * @return object|void
    */
   public function persist($data){
