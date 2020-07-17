@@ -15,7 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
- *   normalizationContext={"groups"={"get"}},
  *   itemOperations={
  *     "get" = {
  *       "security" = "is_granted('IS_AUTHENTICATED_FULLY')",
@@ -27,6 +26,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object === user",
  *       "denormalization_context"={
  *         "groups"={"put"}
+ *       },
+ *       "normalization_context"={
+ *         "groups"={"get"}
  *       }
  *     }
  *   },
@@ -34,6 +36,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     "post" = {
  *       "denormalization_context"={
  *         "groups"={"post"}
+ *       },
+ *       "normalization_context"={
+ *         "groups"={"get"}
  *       }
  *     }
  *   }
