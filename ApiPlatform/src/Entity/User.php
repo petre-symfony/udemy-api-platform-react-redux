@@ -71,6 +71,7 @@ class User implements UserInterface {
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"get:owner", "get:admin"})
      */
     private $roles = [];
 
@@ -102,7 +103,7 @@ class User implements UserInterface {
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"post", "get:admin"})
+     * @Groups({"post", "get:admin", "get:owner"})
      * @Assert\NotBlank()
      * @Assert\Email()
      */
