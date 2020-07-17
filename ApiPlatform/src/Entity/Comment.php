@@ -56,6 +56,7 @@ class Comment implements AuthoredEntityInterface {
     /**
      * @ORM\ManyToOne(targetEntity=BlogPost::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"post"})
      */
     private $post;
 
