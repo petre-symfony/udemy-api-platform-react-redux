@@ -25,9 +25,9 @@ abstract class BaseFixture extends Fixture {
     $this->loadData($manager);
   }
 
-  protected function createMany(int $count, string $groupName, callable $factory)
+  protected function createMany(int $count, string $groupName,  callable $factory, int $added = 0)
   {
-    for ($i = 0; $i < $count; $i++) {
+    for ($i = $added; $i < $count+$added; $i++) {
       $entity = $factory($i);
 
       if (null === $entity) {

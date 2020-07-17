@@ -14,14 +14,14 @@ class UserFixture extends BaseFixture {
   }
 
   protected function loadData(ObjectManager $manager) {
-    $this->createMany(10, 'main_users', function($i) use ($manager) {
+    $this->createMany(5, 'writer_users', function($i) use ($manager) {
       $user = new User();
       $firstName = $this->faker->unique()->firstName;
       $lastName = $this->faker->lastName;
       $user->setEmail($firstName . '@gmail.com');
       $user->setName($firstName . ' ' . $lastName);
       $user->setUsername(str_replace(' ', '_', $user->getName()));
-      $user->setRoles(['ROLE_USER']);
+      $user->setRoles(['ROLE_WRITER']);
 
       $user->setPassword($this->passwordEncoder->encodePassword(
         $user,
@@ -30,6 +30,78 @@ class UserFixture extends BaseFixture {
 
       return $user;
     });
+
+    $this->createMany(5, 'comentator_users', function($i) use ($manager) {
+      $user = new User();
+      $firstName = $this->faker->unique()->firstName;
+      $lastName = $this->faker->lastName;
+      $user->setEmail($firstName . '@gmail.com');
+      $user->setName($firstName . ' ' . $lastName);
+      $user->setUsername(str_replace(' ', '_', $user->getName()));
+      $user->setRoles(['ROLE_COMENTATOR']);
+
+      $user->setPassword($this->passwordEncoder->encodePassword(
+          $user,
+          'engage'
+      ));
+
+
+      return $user;
+    });
+
+    $this->createMany(5, 'editor_users', function($i) use ($manager) {
+      $user = new User();
+      $firstName = $this->faker->unique()->firstName;
+      $lastName = $this->faker->lastName;
+      $user->setEmail($firstName . '@gmail.com');
+      $user->setName($firstName . ' ' . $lastName);
+      $user->setUsername(str_replace(' ', '_', $user->getName()));
+      $user->setRoles(['ROLE_EDITOR']);
+
+      $user->setPassword($this->passwordEncoder->encodePassword(
+        $user,
+        'engage'
+      ));
+
+
+      return $user;
+    });
+
+    $this->createMany(5, 'admin_users', function($i) use ($manager) {
+      $user = new User();
+      $firstName = $this->faker->unique()->firstName;
+      $lastName = $this->faker->lastName;
+      $user->setEmail($firstName . '@gmail.com');
+      $user->setName($firstName . ' ' . $lastName);
+      $user->setUsername(str_replace(' ', '_', $user->getName()));
+      $user->setRoles(['ROLE_ADMIN']);
+
+      $user->setPassword($this->passwordEncoder->encodePassword(
+        $user,
+        'engage'
+      ));
+
+
+      return $user;
+    });
+
+    $this->createMany(5, 'superadmin_users', function($i) use ($manager) {
+      $user = new User();
+      $firstName = $this->faker->unique()->firstName;
+      $lastName = $this->faker->lastName;
+      $user->setEmail($firstName . '@gmail.com');
+      $user->setName($firstName . ' ' . $lastName);
+      $user->setUsername(str_replace(' ', '_', $user->getName()));
+      $user->setRoles(['ROLE_SUPERADMIN']);
+
+      $user->setPassword($this->passwordEncoder->encodePassword(
+        $user,
+        'engage'
+      ));
+
+      return $user;
+    });
+
     $manager->flush();
   }
 }

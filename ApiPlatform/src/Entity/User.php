@@ -46,8 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username"})
  * @UniqueEntity(fields={"email"})
  */
-class User implements UserInterface
-{
+class User implements UserInterface {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

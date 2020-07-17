@@ -16,13 +16,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  *   itemOperations={
  *     "get",
  *     "put" = {
- *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object.getAuthor() === user"
+ *       "security" = "is_granted('ROLE_EDITOR') or (is_granted('ROLE_COMENTATOR') && object.getAuthor() === user)"
  *     }
  *   },
  *   collectionOperations={
  *     "get",
  *     "post" = {
- *       "security" = "is_granted('IS_AUTHENTICATED_FULLY')"
+ *       "security" = "is_granted('ROLE_COMENTATOR')"
  *     }
  *   },
  *   subresourceOperations = {
@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  *   },
  *   denormalizationContext={
- *     "groups"={"post"}
+ *     "groups"={"post_comment"}
  *   },
  * )
  */
@@ -49,7 +49,7 @@ class Comment implements AuthoredEntityInterface {
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"post", "get_comments_of_post_with_author"})
+     * @Groups({"post_comment", "get_comments_of_post_with_author"})
      * @Assert\NotBlank()
      * @Assert\Length(min=3, max=300)
      */
@@ -65,7 +65,7 @@ class Comment implements AuthoredEntityInterface {
     /**
      * @ORM\ManyToOne(targetEntity=BlogPost::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"post"})
+     * @Groups({"post_comment"})
      */
     private $post;
 
