@@ -14,7 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
  * @ApiResource(
- *   itemOperations={"get"},
+ *   itemOperations={
+ *     "get",
+ *     "put" = {
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object.getAuthor() === user"
+ *     }
+ *   },
  *   collectionOperations={
  *     "get",
  *     "post" = {
@@ -45,7 +50,6 @@ class BlogPost {
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank()
-     * @Assert\DateTime()
      * @Groups({"write"})
      */
     private $published;
