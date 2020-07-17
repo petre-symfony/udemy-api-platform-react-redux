@@ -58,14 +58,14 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-      * @Groups({"get", "post", "get_comments_of_post_with_author"})
+      * @Groups({"get", "post", "get_comments_of_post_with_author", "get_post_with_author"})
       * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-      * @Groups({"get", "put", "post", "get_comments_of_post_with_author"})
+      * @Groups({"get", "put", "post", "get_comments_of_post_with_author", "get_post_with_author"})
       * @Assert\NotBlank()
      */
     private $name;

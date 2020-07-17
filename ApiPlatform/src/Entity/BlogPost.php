@@ -18,7 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
  * @ApiResource(
  *   itemOperations={
- *     "get",
+ *     "get" = {
+ *       "normalization_context"={
+ *         "groups" = {"get_post_with_author"}
+ *       }
+ *     },
  *     "put" = {
  *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object.getAuthor() === user"
  *     }
@@ -40,6 +44,7 @@ class BlogPost implements AuthoredEntityInterface {
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"get_post_with_author"})
      */
     private $id;
 
@@ -47,7 +52,7 @@ class BlogPost implements AuthoredEntityInterface {
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min=10)
-     * @Groups({"post"})
+     * @Groups({"post", "get_post_with_author"})
      */
     private $title;
 
@@ -62,18 +67,21 @@ class BlogPost implements AuthoredEntityInterface {
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Gedmo\Slug(fields={"title"})
+     * @Groups({"get_post_with_author"})
      */
     private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"get_post_with_author"})
      */
     private $author;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="post")
      * @ApiSubresource()
+     * @Groups({"get_post_with_author"})
      */
     private $comments;
 
@@ -133,5 +141,12 @@ class BlogPost implements AuthoredEntityInterface {
      */
     public function getComments(): Collection {
       return $this->comments;
+    }
+
+  /**
+   * @Groups({"get_post_with_author"})
+   */
+    public function getCreated(): ?\DateTime{
+      return $this->getCreatedAt();
     }
 }
