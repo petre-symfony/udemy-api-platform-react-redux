@@ -17,16 +17,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *   itemOperations={
  *     "get" = {
- *       "security" = "is_granted('IS_AUTHENTICATED_FULLY')"
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY')",
+ *       "normalization_context"={
+ *         "groups"={"get"}
+ *       }
+ *     },
+ *     "put" = {
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object === user",
+ *       "denormalization_context"={
+ *         "groups"={"put"}
+ *       }
  *     }
  *   },
- *   collectionOperations={"post"},
- *   normalizationContext={
- *     "groups"={"read"}
- *   },
- *   denormalizationContext={
- *     "groups"={"write"}
- *   },
+ *   collectionOperations={
+ *     "post" = {
+ *       "denormalization_context"={
+ *         "groups"={"post"}
+ *       }
+ *     }
+ *   }
  * )
  * @UniqueEntity(fields={"username"})
  * @UniqueEntity(fields={"email"})
@@ -37,20 +46,20 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-      * @Groups("read")
+      * @Groups("get")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-      * @Groups({"read", "write"})
+      * @Groups({"get", "post"})
       * @Assert\NotBlank()
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
-      * @Groups({"read", "write"})
+      * @Groups({"get", "put", "post"})
       * @Assert\NotBlank()
      */
     private $name;
@@ -67,7 +76,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups({"write"})
+     * @Groups({"put", "post"})
      * @Assert\NotBlank()
      * @Assert\Regex(
      *   pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
@@ -82,13 +91,13 @@ class User implements UserInterface
      *   "this.getPlainPassword() === this.getRetypedPassword()",
      *   message="Passwords does not match"
      * )
-     * @Groups({"write"})
+     * @Groups({"put", "post"})
      */
     private $retypedPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"write"})
+     * @Groups({"get","post"})
      * @Assert\NotBlank()
      * @Assert\Email()
      */
@@ -96,13 +105,13 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author")
-      * @Groups("read")
+      * @Groups("get")
      */
     private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=BlogPost::class, mappedBy="author")
-      * @Groups("read")
+     * @Groups("get")
      */
     private $posts;
 
