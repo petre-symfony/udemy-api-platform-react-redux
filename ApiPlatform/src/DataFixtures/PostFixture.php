@@ -13,7 +13,7 @@ class PostFixture extends BaseFixture implements DependentFixtureInterface {
       $post = new BlogPost();
       $post->setTitle($this->faker->unique()->realText($this->faker->numberBetween(10, 20)));
       $post->setContent($this->faker->realText($this->faker->numberBetween(50, 100)));
-      $post->setPublished($this->faker->dateTimeBetween('-30 days'));
+      $post->setCreatedAt($this->faker->dateTimeBetween('-30 days'));
       $post->setAuthor($this->getRandomReference('main_users'));
 
       return $post;

@@ -8,6 +8,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,11 +29,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  *   },
  *   denormalizationContext={
- *     "groups"={"write"}
+ *     "groups"={"post"}
  *   },
  * )
  */
 class BlogPost implements AuthoredEntityInterface {
+    use TimestampableEntity;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -44,22 +46,15 @@ class BlogPost implements AuthoredEntityInterface {
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(min=10)
-     * @Groups({"write"})
+     * @Groups({"post"})
      */
     private $title;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Assert\NotBlank()
-     * @Groups({"write"})
-     */
-    private $published;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @Assert\Length(min=20)
-     * @Groups({"write"})
+     * @Groups({"post"})
      */
     private $content;
 
@@ -95,16 +90,6 @@ class BlogPost implements AuthoredEntityInterface {
 
     public function setTitle(string $title): self {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getPublished(): ?\DateTimeInterface {
-        return $this->published;
-    }
-
-    public function setPublished(\DateTimeInterface $published): self {
-        $this->published = $published;
 
         return $this;
     }

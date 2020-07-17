@@ -5,7 +5,10 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -23,11 +26,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *     }
  *   },
  *   denormalizationContext={
- *     "groups"={"write"}
+ *     "groups"={"post"}
  *   },
  * )
  */
 class Comment implements AuthoredEntityInterface {
+    use TimestampableEntity;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -37,13 +41,11 @@ class Comment implements AuthoredEntityInterface {
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"post"})
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3, max=300)
      */
     private $content;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $published;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
@@ -70,18 +72,6 @@ class Comment implements AuthoredEntityInterface {
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getPublished(): ?\DateTimeInterface
-    {
-        return $this->published;
-    }
-
-    public function setPublished(\DateTimeInterface $published): self
-    {
-        $this->published = $published;
 
         return $this;
     }
