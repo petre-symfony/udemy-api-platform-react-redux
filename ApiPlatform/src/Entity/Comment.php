@@ -9,8 +9,21 @@ use ApiPlatform\Core\Annotation\ApiResource;
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ApiResource(
- *   itemOperations={"get"},
- *   collectionOperations={"get"}
+ *   itemOperations={
+ *     "get",
+ *     "put" = {
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object.getAuthor() === user"
+ *     }
+ *   },
+ *   collectionOperations={
+ *     "get",
+ *     "post" = {
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY')"
+ *     }
+ *   },
+ *   denormalizationContext={
+ *     "groups"={"write"}
+ *   },
  * )
  */
 class Comment

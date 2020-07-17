@@ -11,11 +11,11 @@ class UserDataPersister implements DataPersisterInterface {
   /**
    * @var UserPasswordEncoderInterface
    */
-  private UserPasswordEncoderInterface $passwordEncoder;
+  private $passwordEncoder;
   /**
    * @var EntityManagerInterface
    */
-  private EntityManagerInterface $em;
+  private $em;
 
   public function __construct(
     UserPasswordEncoderInterface $passwordEncoder,
