@@ -143,6 +143,11 @@ class User implements UserInterface {
     private $oldPassword;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $passwordChangeDate;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"post", "get:admin", "get:owner"})
      * @Assert\NotBlank(groups={"post"})
@@ -341,5 +346,21 @@ class User implements UserInterface {
      */
     public function getPosts(): Collection {
         return $this->posts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordChangeDate()
+    {
+      return $this->passwordChangeDate;
+    }
+
+    /**
+     * @param mixed $passwordChangeDate
+     */
+    public function setPasswordChangeDate($passwordChangeDate)
+    {
+      $this->passwordChangeDate = $passwordChangeDate;
     }
 }
