@@ -69,14 +69,15 @@ class User implements UserInterface {
     /**
      * @ORM\Column(type="string", length=180, unique=true)
       * @Groups({"get", "post", "get_comments_of_post_with_author", "get_post_with_author"})
-      * @Assert\NotBlank()
+      * @Assert\NotBlank(groups={"post"})
      */
     private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
       * @Groups({"get", "put", "post", "get_comments_of_post_with_author", "get_post_with_author"})
-      * @Assert\NotBlank()
+      * @Assert\NotBlank(groups={"post"})
+     * @Assert\Length(min=5, max=225, groups={"post", "put"})
      */
     private $name;
 
@@ -94,19 +95,21 @@ class User implements UserInterface {
 
     /**
      * @Groups({"post"})
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"post"})
      * @Assert\Regex(
      *   pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
-     *   message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case lette"
+     *   message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case lette",
+     *   groups={"post"}
      * )
      */
     private $plainPassword;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"post"})
      * @Assert\Expression(
      *   "this.getPlainPassword() === this.getRetypedPassword()",
-     *   message="Passwords does not match"
+     *   message="Passwords does not match",
+     *   groups={"post"}
      * )
      * @Groups({"post"})
      */
@@ -142,8 +145,9 @@ class User implements UserInterface {
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"post", "get:admin", "get:owner"})
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(groups={"post"})
+     * @Assert\Email(groups={"post", "put"})
+     * @Assert\Length(min=6, max=255, groups={"post", "put"})
      */
     private $email;
 

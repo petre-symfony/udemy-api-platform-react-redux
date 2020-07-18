@@ -2,8 +2,8 @@
 namespace App\Controller;
 
 
+use ApiPlatform\Core\Validator\ValidatorInterface;
 use App\Entity\User;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ResetPasswordAction {
   /**
@@ -21,12 +21,7 @@ class ResetPasswordAction {
   {
     // $reset = new ResetPasswordAction()
     // $reset()
-    dd(
-      $data->getOldPassword(),
-      $data->getNewRetypedPassword(),
-      $data->getNewPassword(),
-      $data->getRetypedPassword()
-    );
+
     //Validator is only called after we return the data from this action
     $this->validator->validate($data);
   }
