@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -82,7 +83,7 @@ class User implements UserInterface {
     private $password;
 
     /**
-     * @Groups({"put", "post"})
+     * @Groups({"post"})
      * @Assert\NotBlank()
      * @Assert\Regex(
      *   pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
@@ -97,9 +98,36 @@ class User implements UserInterface {
      *   "this.getPlainPassword() === this.getRetypedPassword()",
      *   message="Passwords does not match"
      * )
-     * @Groups({"put", "post"})
+     * @Groups({"post"})
      */
     private $retypedPassword;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *   pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
+     *   message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case lette"
+     * )
+     * @Groups({"put_reset_password"})
+     */
+    private $newPassword;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Expression(
+     *   "this.getNewPassword() === this.getNewRetypedPassword()",
+     *   message="Passwords does not match"
+     * )
+     * @Groups({"put_reset_password"})
+     */
+    private $newRetypedPassword;
+
+    /**
+     * @Assert\NotBlank()
+     * @UserPassword()
+     * @Groups({"put_reset_password"})
+     */
+    private $oldPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -222,6 +250,54 @@ class User implements UserInterface {
     public function setRetypedPassword(string $retypedPassword): self {
       $this->retypedPassword = $retypedPassword;
       return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewPassword()
+    {
+      return $this->newPassword;
+    }
+
+    /**
+     * @param mixed $newPassword
+     */
+    public function setNewPassword($newPassword)
+    {
+      $this->newPassword = $newPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewRetypedPassword()
+    {
+      return $this->newRetypedPassword;
+    }
+
+    /**
+     * @param mixed $newRetypedPassword
+     */
+    public function setNewRetypedPassword($newRetypedPassword)
+    {
+      $this->newRetypedPassword = $newRetypedPassword;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getOldPassword()
+    {
+      return $this->oldPassword;
+    }
+
+    /**
+     * @param mixed $oldPassword
+     */
+    public function setOldPassword($oldPassword)
+    {
+      $this->oldPassword = $oldPassword;
     }
 
     /**

@@ -5,24 +5,26 @@ namespace App\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserDataPersister implements DataPersisterInterface {
-  /**
-   * @var UserPasswordEncoderInterface
-   */
   private $passwordEncoder;
-  /**
-   * @var EntityManagerInterface
-   */
+
   private $em;
+  private $requestStack;
+
 
   public function __construct(
     UserPasswordEncoderInterface $passwordEncoder,
-    EntityManagerInterface $em
+    EntityManagerInterface $em,
+    RequestStack $requestStack
   ){
     $this->passwordEncoder = $passwordEncoder;
     $this->em = $em;
+
+    $this->requestStack = $requestStack;
   }
 
   public function supports($data): bool {
@@ -34,6 +36,10 @@ class UserDataPersister implements DataPersisterInterface {
    * @return object|void
    */
   public function persist($data){
+    if($this->requestStack->getCurrentRequest()->isMethod('PUT')){
+      return;
+    };
+
     if($data->getPlainPassword()){
       $data->setPassword(
         $this->passwordEncoder->encodePassword($data, $data->getPlainPassword())
