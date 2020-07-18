@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\ResetPasswordAction;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -30,6 +31,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  *       },
  *       "normalization_context"={
  *         "groups"={"get"}
+ *       }
+ *     },
+ *     "put_reset_password" = {
+ *       "security" = "is_granted('IS_AUTHENTICATED_FULLY') && object === user",
+ *       "method"="PUT",
+ *       "path"="/users/{id}/reset-password",
+ *       "controller"=ResetPasswordAction::class,
+ *       "denormalization_context"={
+ *         "groups"={"put_reset_password"}
  *       }
  *     }
  *   },
@@ -255,7 +265,7 @@ class User implements UserInterface {
     /**
      * @return mixed
      */
-    public function getNewPassword()
+    public function getNewPassword():?string
     {
       return $this->newPassword;
     }
@@ -271,7 +281,7 @@ class User implements UserInterface {
     /**
      * @return mixed
      */
-    public function getNewRetypedPassword()
+    public function getNewRetypedPassword():?string
     {
       return $this->newRetypedPassword;
     }
@@ -287,7 +297,7 @@ class User implements UserInterface {
     /**
      * @return mixed
      */
-    public function getOldPassword()
+    public function getOldPassword():?string
     {
       return $this->oldPassword;
     }
