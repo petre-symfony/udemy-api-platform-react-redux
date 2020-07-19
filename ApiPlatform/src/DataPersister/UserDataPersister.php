@@ -4,26 +4,29 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\User;
+use App\Security\TokenGenerator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserDataPersister implements DataPersisterInterface {
   private $passwordEncoder;
-
   private $em;
   private $requestStack;
+  private $tokenGenerator;
 
 
   public function __construct(
     UserPasswordEncoderInterface $passwordEncoder,
     EntityManagerInterface $em,
-    RequestStack $requestStack
+    RequestStack $requestStack,
+    TokenGenerator $tokenGenerator
   ){
     $this->passwordEncoder = $passwordEncoder;
     $this->em = $em;
 
     $this->requestStack = $requestStack;
+    $this->tokenGenerator = $tokenGenerator;
   }
 
   public function supports($data): bool {
@@ -46,6 +49,12 @@ class UserDataPersister implements DataPersisterInterface {
 
       $data->eraseCredentials();
     }
+
+    //Create confirmation token
+    $data->setConfirmationToken(
+      $this->tokenGenerator->getRandomSecureToken()
+    );
+
     $this->em->persist($data);
     $this->em->flush();
   }

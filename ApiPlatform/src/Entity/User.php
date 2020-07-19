@@ -116,28 +116,30 @@ class User implements UserInterface {
     private $retypedPassword;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"put_reset_password"})
      * @Assert\Regex(
      *   pattern="/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{7,}/",
-     *   message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case lette"
+     *   message="Password must be seven characters long and contain at least one digit, one upper case letter and one lower case lette",
+     *   groups={"put_reset_password"}
      * )
      * @Groups({"put_reset_password"})
      */
     private $newPassword;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"put_reset_password"})
      * @Assert\Expression(
      *   "this.getNewPassword() === this.getNewRetypedPassword()",
-     *   message="Passwords does not match"
+     *   message="Passwords does not match",
+     *   groups={"put_reset_password"}
      * )
      * @Groups({"put_reset_password"})
      */
     private $newRetypedPassword;
 
     /**
-     * @Assert\NotBlank()
-     * @UserPassword()
+     * @Assert\NotBlank(groups={"put_reset_password"})
+     * @UserPassword(groups={"put_reset_password"})
      * @Groups({"put_reset_password"})
      */
     private $oldPassword;
@@ -227,8 +229,8 @@ class User implements UserInterface {
      */
     public function getRoles(): array {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // guarantee every user at least has ROLE_COMENTATOR
+        $roles[] = 'ROLE_COMENTATOR';
 
         return array_unique($roles);
     }
