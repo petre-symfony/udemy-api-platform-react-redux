@@ -22,6 +22,7 @@ class UserFixture extends BaseFixture {
       $user->setName($firstName . ' ' . $lastName);
       $user->setUsername(str_replace(' ', '_', $user->getName()));
       $user->setRoles(['ROLE_WRITER']);
+      $user->setEnabled(true);
 
       $user->setPassword($this->passwordEncoder->encodePassword(
         $user,
@@ -39,6 +40,7 @@ class UserFixture extends BaseFixture {
       $user->setName($firstName . ' ' . $lastName);
       $user->setUsername(str_replace(' ', '_', $user->getName()));
       $user->setRoles(['ROLE_COMENTATOR']);
+      $user->setEnabled(true);
 
       $user->setPassword($this->passwordEncoder->encodePassword(
           $user,
@@ -57,6 +59,7 @@ class UserFixture extends BaseFixture {
       $user->setName($firstName . ' ' . $lastName);
       $user->setUsername(str_replace(' ', '_', $user->getName()));
       $user->setRoles(['ROLE_EDITOR']);
+      $user->setEnabled(true);
 
       $user->setPassword($this->passwordEncoder->encodePassword(
         $user,
@@ -75,6 +78,7 @@ class UserFixture extends BaseFixture {
       $user->setName($firstName . ' ' . $lastName);
       $user->setUsername(str_replace(' ', '_', $user->getName()));
       $user->setRoles(['ROLE_ADMIN']);
+      $user->setEnabled(true);
 
       $user->setPassword($this->passwordEncoder->encodePassword(
         $user,
@@ -93,6 +97,7 @@ class UserFixture extends BaseFixture {
       $user->setName($firstName . ' ' . $lastName);
       $user->setUsername(str_replace(' ', '_', $user->getName()));
       $user->setRoles(['ROLE_SUPERADMIN']);
+      $user->setEnabled(true);
 
       $user->setPassword($this->passwordEncoder->encodePassword(
         $user,

@@ -157,6 +157,16 @@ class User implements UserInterface {
     private $email;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @ORM\Column(type="string", length=40, nullable=true)
+     */
+    private $confirmationToken;
+
+    /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="author")
       * @Groups("get")
      */
@@ -171,6 +181,7 @@ class User implements UserInterface {
     public function __construct() {
         $this->comments = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->enabled = false;
     }
 
     public function getId(): ?int {
@@ -362,5 +373,37 @@ class User implements UserInterface {
     public function setPasswordChangeDate($passwordChangeDate)
     {
       $this->passwordChangeDate = $passwordChangeDate;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+      return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled): void
+    {
+      $this->enabled = $enabled;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConfirmationToken()
+    {
+      return $this->confirmationToken;
+    }
+
+    /**
+     * @param mixed $confirmationToken
+     */
+    public function setConfirmationToken($confirmationToken): void
+    {
+      $this->confirmationToken = $confirmationToken;
     }
 }
