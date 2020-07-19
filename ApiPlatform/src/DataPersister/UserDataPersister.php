@@ -5,6 +5,7 @@ namespace App\DataPersister;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\User;
 use App\Security\TokenGenerator;
+use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -14,19 +15,21 @@ class UserDataPersister implements DataPersisterInterface {
   private $em;
   private $requestStack;
   private $tokenGenerator;
+  private Mailer $mailer;
 
 
   public function __construct(
     UserPasswordEncoderInterface $passwordEncoder,
     EntityManagerInterface $em,
     RequestStack $requestStack,
-    TokenGenerator $tokenGenerator
+    TokenGenerator $tokenGenerator,
+    Mailer $mailer
   ){
     $this->passwordEncoder = $passwordEncoder;
     $this->em = $em;
-
     $this->requestStack = $requestStack;
     $this->tokenGenerator = $tokenGenerator;
+    $this->mailer = $mailer;
   }
 
   public function supports($data): bool {
@@ -51,9 +54,12 @@ class UserDataPersister implements DataPersisterInterface {
     }
 
     //Create confirmation token
-    $data->setConfirmationToken(
-      $this->tokenGenerator->getRandomSecureToken()
-    );
+    if(!$data->getConfirmationToken()) {
+      $confirmationToken = $this->tokenGenerator->getRandomSecureToken();
+      $data->setConfirmationToken($confirmationToken);
+      $this->mailer->sendConfirmationEmail($data, $confirmationToken);
+    }
+
 
     $this->em->persist($data);
     $this->em->flush();
