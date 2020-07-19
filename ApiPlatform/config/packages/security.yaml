@@ -28,7 +28,7 @@ security:
 #                   - lexik_jwt_authentication.jwt_token_authenticator
                     - App\Security\TokenAuthenticator
 
-
+            user_checker: App\Security\UserEnabledChecker
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
