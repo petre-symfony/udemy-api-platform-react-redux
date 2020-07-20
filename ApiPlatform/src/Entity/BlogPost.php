@@ -51,7 +51,7 @@ class BlogPost implements AuthoredEntityInterface {
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
-     * @Assert\Length(min=10)
+     * @Assert\Length(min=5)
      * @Groups({"post", "get_post_with_author"})
      */
     private $title;
@@ -88,7 +88,7 @@ class BlogPost implements AuthoredEntityInterface {
     /**
      * @ORM\ManyToMany(targetEntity=Image::class)
      * @ORM\JoinTable()
-     * @Groups({"post"})
+     * @Groups({"post", "get_post_with_author"})
      * @ApiSubresource()
      */
     private $images;
