@@ -16,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
@@ -32,6 +34,21 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
  *   properties={
  *     "createdAt"
  *   }
+ * )
+ * @ApiFilter(
+ *   RangeFilter::class,
+ *   properties={
+ *     "id"
+ *   }
+ * )
+ * @ApiFilter(
+ *   OrderFilter::class,
+ *   properties={
+ *     "id",
+ *     "createdAt",
+ *     "title"
+ *   },
+ *   arguments={"orderParameterName"="_order"}
  * )
  * @ApiResource(
  *   attributes={"order"={"createdAt": "DESC"}},
