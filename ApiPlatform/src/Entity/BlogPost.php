@@ -18,6 +18,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
@@ -51,6 +52,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
  *   },
  *   arguments={"orderParameterName"="_order"}
  * )
+ * @ApiFilter(PropertyFilter::class, arguments={
+ *   "parameterName": "properties",
+ *   "overrideDefaultProperties": false,
+ *   "whitelist": {"id", "author", "slug", "title", "content"}
+ * })
  * @ApiResource(
  *   attributes={"order"={"createdAt": "DESC"}},
  *   itemOperations={
