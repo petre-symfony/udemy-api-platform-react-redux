@@ -26,7 +26,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
  *   properties={
  *     "title": "ipartial",
  *     "content": "partial",
- *     "author": "exact"
+ *     "author": "exact",
+ *     "author.name": "partial"
  *   }
  * )
  * @ApiFilter(
