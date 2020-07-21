@@ -14,3 +14,4 @@ api_platform:
             client_items_per_page: true #false by default
             items_per_page_parameter_name: itemsPerPage
             maximum_items_per_page: 20
+            partial: true
