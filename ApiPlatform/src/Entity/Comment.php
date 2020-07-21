@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ApiResource(
+ *   attributes={"order"={"createdAt": "DESC"}},
  *   itemOperations={
  *     "get",
  *     "put" = {

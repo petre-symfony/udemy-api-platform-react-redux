@@ -12,6 +12,7 @@ use App\Controller\UploadImageAction;
  * @ORM\Entity()
  * @Vich\Uploadable()
  * @ApiResource(
+ *   attributes={"order"={"id": "DESC"}},
  *   collectionOperations={
  *     "get",
  *     "post"={

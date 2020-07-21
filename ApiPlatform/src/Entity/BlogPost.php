@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
  * @ApiResource(
+ *   attributes={"order"={"createdAt": "DESC"}},
  *   itemOperations={
  *     "get" = {
  *       "normalization_context"={
