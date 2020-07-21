@@ -13,9 +13,19 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass=BlogPostRepository::class)
+ * @ApiFilter(
+ *   SearchFilter::class,
+ *   properties={
+ *     "title": "ipartial",
+ *     "content": "partial",
+ *     "author": "exact"
+ *   }
+ * )
  * @ApiResource(
  *   attributes={"order"={"createdAt": "DESC"}},
  *   itemOperations={
