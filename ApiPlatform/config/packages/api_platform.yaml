@@ -8,3 +8,5 @@ api_platform:
     collection:
         pagination:
             page_parameter_name: _page
+            client_enabled: true
+            enabled_parameter_name: pagination
