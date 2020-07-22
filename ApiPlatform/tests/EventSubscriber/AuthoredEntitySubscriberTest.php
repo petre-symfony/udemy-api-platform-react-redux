@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\EventSubscriber\AuthoredEntitySubscriber;
 use App\EventSubscriber\UserConfirmationSubscriber;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -61,14 +62,24 @@ class AuthoredEntitySubscriberTest extends TestCase {
    */
   private function getEventMock(): MockObject
   {
+    $requestMock = $this->getMockBuilder(Request::class)
+      ->getMock();
+    $requestMock->expects($this->once())
+      ->method('getMethod')
+      ->willReturn('POST');
+
     $eventMock = $this->getMockBuilder(ViewEvent::class)
       ->disableOriginalConstructor()
       ->getMock();
 
-    $eventMock->expects($this->never())
+    $eventMock->expects($this->once())
       ->method('getControllerResult')
       ->willReturn(new BlogPost())
     ;
+    $eventMock->expects($this->once())
+      ->method('getRequest')
+      ->willReturn($requestMock);
+
     return $eventMock;
   }
 }
