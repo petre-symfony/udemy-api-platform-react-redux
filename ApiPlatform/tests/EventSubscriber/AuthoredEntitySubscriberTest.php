@@ -27,9 +27,21 @@ class AuthoredEntitySubscriberTest extends TestCase {
   }
 
   public function testSetAuthor(){
-    $tokenStorageMock = $this->getTokenStorageMock();
+    $entityMock = $this->getMockBuilder(BlogPost::class)
+      ->setMethods(['setAuthor'])
+      ->getMock()
+    ;
 
-    $eventMock = $this->getEventMock('POST', new BlogPost());
+    $entityMock->expects($this->once())
+      ->method('setAuthor');
+
+    $tokenStorageMock = $this->getTokenStorageMock();
+    $eventMock = $this->getEventMock('POST', $entityMock);
+
+    (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+
+    $tokenStorageMock = $this->getTokenStorageMock();
+    $eventMock = $this->getEventMock('GET', new BlogPost());
 
     (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
   }
