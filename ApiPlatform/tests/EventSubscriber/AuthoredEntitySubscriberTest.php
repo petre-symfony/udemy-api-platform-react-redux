@@ -4,6 +4,7 @@ namespace App\Test\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\BlogPost;
+use App\Entity\Comment;
 use App\Entity\User;
 use App\EventSubscriber\AuthoredEntitySubscriber;
 use App\EventSubscriber\UserConfirmationSubscriber;
@@ -46,11 +47,13 @@ class AuthoredEntitySubscriberTest extends TestCase {
     return [
       [BlogPost::class, true, 'POST'],
       [BlogPost::class, false, 'GET'],
-      ['NonExisting', false, 'POST']
+      ['NonExisting', false, 'POST'],
+      [Comment::class, true, 'POST']
     ];
   }
 
   public function testNoTokenStorage(){
+
     $tokenStorageMock = $this->getTokenStorageMock(false);
     $eventMock = $this->getEventMock('POST', new class {});
 
@@ -66,7 +69,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
       ->getMockForAbstractClass();
 
     $tokenMock
-      ->expects($this->once())
+      ->expects($hasToken ? $this->once() : $this->never())
       ->method('getUser')
       ->willReturn(new User());
 
