@@ -4,12 +4,13 @@ namespace App\Test\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\User;
+use App\EventSubscriber\AuthoredEntitySubscriber;
 use App\EventSubscriber\UserConfirmationSubscriber;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument\Token\TokenInterface;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class AuthoredEntitySubscriberTest extends TestCase {
   public function testConfiguration(){
@@ -40,5 +41,11 @@ class AuthoredEntitySubscriberTest extends TestCase {
       ->method('getToken')
       ->willReturn($tokenMock)
     ;
+
+    $eventMock = $this->getMockBuilder(ViewEvent::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
   }
 }

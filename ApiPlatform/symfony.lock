@@ -34,6 +34,9 @@
     "composer/package-versions-deprecated": {
         "version": "1.10.99"
     },
+    "dg/bypass-finals": {
+        "version": "v1.2.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {

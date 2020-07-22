@@ -45,6 +45,7 @@
         "vich/uploader-bundle": "^1.15"
     },
     "require-dev": {
+        "dg/bypass-finals": "^1.2",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "fzaninotto/faker": "^1.9",
         "symfony/browser-kit": "^5.1",
