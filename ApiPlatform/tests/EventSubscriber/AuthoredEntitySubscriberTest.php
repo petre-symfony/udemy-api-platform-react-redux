@@ -31,7 +31,6 @@ class AuthoredEntitySubscriberTest extends TestCase {
       ->setMethods(['setAuthor'])
       ->getMock()
     ;
-
     $entityMock->expects($this->once())
       ->method('setAuthor');
 
@@ -40,8 +39,15 @@ class AuthoredEntitySubscriberTest extends TestCase {
 
     (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
 
+    $entityMock = $this->getMockBuilder('NewExisting')
+      ->setMethods(['setAuthor'])
+      ->getMock()
+    ;
+    $entityMock->expects($this->never())
+      ->method('setAuthor');
     $tokenStorageMock = $this->getTokenStorageMock();
-    $eventMock = $this->getEventMock('GET', new BlogPost());
+
+    $eventMock = $this->getEventMock('POST', new BlogPost());
 
     (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
   }
