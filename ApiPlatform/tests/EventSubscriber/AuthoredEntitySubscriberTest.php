@@ -29,7 +29,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
   public function testSetAuthor(){
     $tokenStorageMock = $this->getTokenStorageMock();
 
-    $eventMock = $this->getEventMock();
+    $eventMock = $this->getEventMock('POST', new BlogPost());
 
     (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
   }
@@ -60,13 +60,13 @@ class AuthoredEntitySubscriberTest extends TestCase {
   /**
    * @return MockObject
    */
-  private function getEventMock(): MockObject
+  private function getEventMock(string $method, $controllerResult): MockObject
   {
     $requestMock = $this->getMockBuilder(Request::class)
       ->getMock();
     $requestMock->expects($this->once())
       ->method('getMethod')
-      ->willReturn('POST');
+      ->willReturn($method);
 
     $eventMock = $this->getMockBuilder(ViewEvent::class)
       ->disableOriginalConstructor()
@@ -74,7 +74,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
 
     $eventMock->expects($this->once())
       ->method('getControllerResult')
-      ->willReturn(new BlogPost())
+      ->willReturn($controllerResult)
     ;
     $eventMock->expects($this->once())
       ->method('getRequest')
