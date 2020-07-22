@@ -17,3 +17,5 @@ api_platform:
             partial: false
             client_partial: true
             partial_parameter_name: partial
+    exception_to_status:
+        App\Exception\InvalidConfirmationTokenException: 404
