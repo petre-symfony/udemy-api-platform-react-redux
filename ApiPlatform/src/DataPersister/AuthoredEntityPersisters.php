@@ -1,9 +1,7 @@
 <?php
-
-
 namespace App\DataPersister;
 
-
+/**
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\AuthoredEntityInterface;
 use App\Entity\Comment;
@@ -11,17 +9,17 @@ use App\Entity\BlogPost;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Security;
-
-class AuthoredEntityPersisters implements DataPersisterInterface {
+*/
+class AuthoredEntityPersisters /** implements DataPersisterInterface */{
   /**
    * @var EntityManagerInterface
    */
-  private $em;
+  #private $em;
   /**
    * @var Security
    */
-  private $security;
-
+  #private $security;
+  /**
   public function __construct(
     Security $security,
     EntityManagerInterface $em
@@ -33,11 +31,12 @@ class AuthoredEntityPersisters implements DataPersisterInterface {
   public function supports($data): bool {
     return $data instanceof AuthoredEntityInterface;
   }
-
+  */
   /**
    * @param Comment|BlogPost $data
    * @return object|void
    */
+  /**
   public function persist($data){
     $user = $this->security->getUser();
     if($user instanceof User){
@@ -51,4 +50,5 @@ class AuthoredEntityPersisters implements DataPersisterInterface {
     $this->em->remove($data);
     $this->em->flush();
   }
+   */
 }
