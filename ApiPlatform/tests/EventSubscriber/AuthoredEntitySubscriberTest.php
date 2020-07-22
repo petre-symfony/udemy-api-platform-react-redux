@@ -65,7 +65,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
       ->disableOriginalConstructor()
       ->getMock();
 
-    $eventMock->expects($this->once())
+    $eventMock->expects($this->never())
       ->method('getControllerResult')
       ->willReturn(new BlogPost())
     ;
