@@ -3,6 +3,7 @@ namespace App\Test\EventSubscriber;
 
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use App\Entity\BlogPost;
 use App\Entity\User;
 use App\EventSubscriber\AuthoredEntitySubscriber;
 use App\EventSubscriber\UserConfirmationSubscriber;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AuthoredEntitySubscriberTest extends TestCase {
   public function testConfiguration(){
@@ -24,28 +26,49 @@ class AuthoredEntitySubscriberTest extends TestCase {
   }
 
   public function testSetAuthor(){
+    $tokenStorageMock = $this->getTokenStorageMock();
+
+    $eventMock = $this->getEventMock();
+
+    (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+  }
+
+  /**
+   * @return MockObject|TokenStorageInterface
+   */
+  private function getTokenStorageMock(): \PHPUnit\Framework\MockObject\MockObject
+  {
     $tokenMock = $this->getMockBuilder(TokenInterface::class)
       ->getMockForAbstractClass();
 
     $tokenMock
-      ->expects($this->exactly(2))
+      ->expects($this->once())
       ->method('getUser')
-      ->willReturn(new User())
-    ;
+      ->willReturn(new User());
 
     $tokenStorageMock = $this->getMockBuilder(TokenStorageInterface::class)
       ->getMockForAbstractClass();
 
     $tokenStorageMock
-      ->expects($this->never())
+      ->expects($this->once())
       ->method('getToken')
-      ->willReturn($tokenMock)
-    ;
+      ->willReturn($tokenMock);
+    return $tokenStorageMock;
+  }
 
+  /**
+   * @return MockObject
+   */
+  private function getEventMock(): MockObject
+  {
     $eventMock = $this->getMockBuilder(ViewEvent::class)
       ->disableOriginalConstructor()
       ->getMock();
 
-    (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+    $eventMock->expects($this->once())
+      ->method('getControllerResult')
+      ->willReturn(new BlogPost())
+    ;
+    return $eventMock;
   }
 }

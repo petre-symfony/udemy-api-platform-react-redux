@@ -32,7 +32,7 @@ class AuthoredEntitySubscriber implements EventSubscriberInterface
 
     public function getAuthenticatedUser(ViewEvent $event)
     {
-        //$entity = $event->getControllerResult();
+        $entity = $event->getControllerResult();
        // $method = $event->getRequest()->getMethod();
 
         /** @var UserInterface $author */
