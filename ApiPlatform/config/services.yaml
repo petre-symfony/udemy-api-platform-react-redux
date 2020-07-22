@@ -29,3 +29,7 @@ services:
     App\Serializer\UserContextBuilder:
         decorates: 'api_platform.serializer.context_builder'
         arguments: ['@App\Serializer\UserContextBuilder.inner']
+
+    App\Security\UserConfirmationService:
+        arguments:
+            $logger: '@monolog.logger.token_confirmation'
