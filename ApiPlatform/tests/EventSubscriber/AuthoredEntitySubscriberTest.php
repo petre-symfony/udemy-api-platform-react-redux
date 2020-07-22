@@ -28,7 +28,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
       ->getMockForAbstractClass();
 
     $tokenMock
-      ->expects($this->once())
+      ->expects($this->exactly(2))
       ->method('getUser')
       ->willReturn(new User())
     ;
@@ -37,7 +37,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
       ->getMockForAbstractClass();
 
     $tokenStorageMock
-      ->expects($this->once())
+      ->expects($this->never())
       ->method('getToken')
       ->willReturn($tokenMock)
     ;
