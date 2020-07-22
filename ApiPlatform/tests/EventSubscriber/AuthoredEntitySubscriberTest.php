@@ -26,19 +26,28 @@ class AuthoredEntitySubscriberTest extends TestCase {
     );
   }
 
-  public function testSetAuthor(){
-    $entityMock = $this->getEntityMock(BlogPost::class, true);
+  /**
+   *@dataProvider  providerSetAuthorCall
+   */
+  public function testSetAuthorCall(
+    string $className,
+    bool $shouldCallSetAuthor,
+    string $method
+  ){
+    $entityMock = $this->getEntityMock($className, $shouldCallSetAuthor);
 
     $tokenStorageMock = $this->getTokenStorageMock();
-    $eventMock = $this->getEventMock('POST', $entityMock);
+    $eventMock = $this->getEventMock($method, $entityMock);
 
     (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+  }
 
-    $entityMock = $this->getEntityMock('NonExisting', false);
-    $tokenStorageMock = $this->getTokenStorageMock();
-    $eventMock = $this->getEventMock('POST', $entityMock);
-
-    (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
+  public function providerSetAuthorCall(): array{
+    return [
+      [BlogPost::class, true, 'POST'],
+      [BlogPost::class, false, 'GET'],
+      ['NonExisting', false, 'POST']
+    ];
   }
 
   /**
@@ -93,7 +102,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
   /**
    * @return MockObject
    */
-  private function getEntityMock($className, bool $shouldCallSetAuthor): MockObject
+  private function getEntityMock(string $className, bool $shouldCallSetAuthor): MockObject
   {
     $entityMock = $this->getMockBuilder($className)
       ->setMethods(['setAuthor'])
