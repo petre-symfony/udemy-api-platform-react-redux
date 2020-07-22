@@ -51,7 +51,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
   }
 
   public function testNoTokenStorage(){
-    $tokenStorageMock = $this->getTokenStorageMock();
+    $tokenStorageMock = $this->getTokenStorageMock(false);
     $eventMock = $this->getEventMock('POST', new class {});
 
     (new AuthoredEntitySubscriber($tokenStorageMock))->getAuthenticatedUser($eventMock);
@@ -60,7 +60,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
   /**
    * @return MockObject|TokenStorageInterface
    */
-  private function getTokenStorageMock(): \PHPUnit\Framework\MockObject\MockObject
+  private function getTokenStorageMock(bool $hasToken = true): MockObject
   {
     $tokenMock = $this->getMockBuilder(TokenInterface::class)
       ->getMockForAbstractClass();
@@ -76,7 +76,7 @@ class AuthoredEntitySubscriberTest extends TestCase {
     $tokenStorageMock
       ->expects($this->once())
       ->method('getToken')
-      ->willReturn($tokenMock);
+      ->willReturn($hasToken ? $tokenMock : null);
     return $tokenStorageMock;
   }
 
