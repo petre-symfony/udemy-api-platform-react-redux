@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass=CommentRepository::class)
  * @ApiResource(
  *   attributes={
- *     "order"={"createdAt": "DESC"}
+ *     "order"={"createdAt": "DESC"},
  *     "pagination_client_enabled"=true,
  *     "pagination_client_items_per_page"=true
  *   },
